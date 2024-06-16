@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    td {
+      padding: 4px 16px;
+    }
+
+    tr {
+      border: 1px solid gray;
+    }
+
+    .readonly-label {
+      display: block;
+      font-weight: 600;
+    }
+
+    .readonly-text {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <nav>
+    {% if request.user.is_authenticated %}
+    <ul>
+      <li>
+        <a href="{% url 'exercises_list' %}">Ejercicios</a>
+      </li>
+    
+      {% if request.session.is_professor %}
+        <li>
+          <a href="{% url 'register_exercise' %}">Registrar ejercicio</a>
+        </li>
+        <li>
+          <a href="{% url 'students_list' %}">Alumnos</a>
+        </li>
+      {% endif %}
+
+      <li>
+        <form action="{% url 'logout' %}" method="POST">{% csrf_token %}
+          <button type="submit">
+            Cerrar sessión
+          </button>
+        </form>
+      </li>
+    </ul>
+    {% endif %}
+  </nav>
+
+  {% block body %}
+  
+  {% endblock %}
+</body>
+</html>
